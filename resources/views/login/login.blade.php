@@ -16,7 +16,6 @@
             <td><input type="button" value="Register" id="btnregister"> </td>
         </tr>
     </table>
-
     <ul>
         @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
