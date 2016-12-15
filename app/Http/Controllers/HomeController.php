@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Bar;
+use App\Image;
 use App\Profile;
 use App\Test;
 use App\User;
@@ -10,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Theme;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Foo;
 
 class HomeController extends Controller
 {
@@ -99,11 +102,16 @@ class HomeController extends Controller
         return $theme->of('home/index',$data)->render();
     }
     public function seconddashboard(){
-        $test = new Test();
-        return $test->foo();
+        $theme = Theme::uses('home')->layout('default')->setTitle('Test');
+        return $theme->of('home/second')->render();
     }
     public function thirddashboard(){
-        dd('Third');
+        $imagemodel = new Image();
+        $data = [
+            'image' => $imagemodel->getalldata()
+        ];
+        $theme = Theme::uses('home')->layout('default')->setTitle('Test');
+        return $theme->of('home/third',$data)->render();
     }
     public function search(Request $request){
         $user = new User();
@@ -120,5 +128,29 @@ class HomeController extends Controller
             'items' => $feed->get_items()
         );
         return View::make('home/feeds',$data);
+    }
+    public function submitform(Request $request){
+        $title = $request->input('title');
+        $file = $request->file('image');
+        $hiddenSpanImage = $request->input('hiddenSpanImage');
+        if(isset($file)){
+            $destinationpath = public_path() . '/img/';
+            $filename = pathinfo($file->getClientOriginalName(),PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            $newfilename = $filename.'.'.$extension;
+            $upload_success = $request->file('image')->move($destinationpath,$newfilename);
+        }else{
+            $newfilename = $hiddenSpanImage;
+        }
+        $dataArray = [
+            'title' => $title,
+            'image' => $newfilename
+        ];
+        $imagemodel = new Image();
+        $imagemodel->saveimage($dataArray);
+        return 'saved';
+    }
+    public function checkit(){
+        return 'wqewqe';
     }
 }

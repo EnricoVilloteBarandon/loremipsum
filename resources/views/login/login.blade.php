@@ -1,5 +1,6 @@
-{{ Theme::asset()->usePath()->add('scripts-js','js/scripts.js') }}
 {{ Theme::asset()->usePath()->add('style-css','css/style.css') }}
+{{ Theme::asset()->usePath()->add('scripts-js','js/scripts.js') }}
+
 <form method="post" action="login" id="frmlogin">
     <input type="hidden" value="{{ csrf_token() }}" name="_token">
     <table>
@@ -21,4 +22,7 @@
         <li>{{ $error }}</li>
         @endforeach
     </ul>
+<!--    <div class="container">-->
+<!--        <input type="button" id="btnTest" value="Test">-->
+<!--    </div>-->
 </form>

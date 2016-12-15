@@ -9,6 +9,7 @@ class Profile extends Model
 {
     protected $table = 'profile';
     protected $primarykey = 'id';
+    protected $fillable  = [];
     public function insert($data){
        return DB::table($this->table)
            ->insert($data);
